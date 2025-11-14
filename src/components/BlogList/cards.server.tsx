@@ -78,6 +78,7 @@ jahiaComponent(
           "slug"?: string;
           "datePublished"?: string;
           "author"?: JCRNodeWrapper;
+          "image"?: JCRNodeWrapper;
           "ratingCount"?: number;
           "ratingTotal"?: number;
         }>(child, [
@@ -86,6 +87,7 @@ jahiaComponent(
           "slug",
           "datePublished",
           "author",
+          "image",
           "ratingCount",
           "ratingTotal",
         ]);
@@ -109,6 +111,16 @@ jahiaComponent(
           }
         }
 
+        let imageUrl: string | undefined;
+        const imageNode = postProps.image;
+        if (imageNode && typeof imageNode.getUrl === "function") {
+          try {
+            imageUrl = imageNode.getUrl();
+          } catch (e) {
+            console.error("[BlogList Cards] Error getting image URL:", e);
+          }
+        }
+
         return {
           id: postId,
           node: child,
@@ -117,6 +129,7 @@ jahiaComponent(
           slug: postProps.slug ?? "",
           datePublished: postProps.datePublished,
           authorName,
+          imageUrl,
         };
       });
 
@@ -138,6 +151,12 @@ jahiaComponent(
             <div className={classes.cardsGrid}>
               {posts.map((post) => (
                 <article key={post.id} className={classes.card}>
+                  {post.imageUrl && (
+                    <div className={classes.cardImageWrapper}>
+                      <img src={post.imageUrl} alt={post.title} className={classes.cardImage} />
+                    </div>
+                  )}
+
                   <h2 className={classes.cardTitle}>
                     <a href={buildNodeUrl(post.node)}>{post.title}</a>
                   </h2>

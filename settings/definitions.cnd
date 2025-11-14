@@ -17,11 +17,6 @@
 [blogmix:commentable] mixin
  - allowComments (boolean) = true autocreated
 
-// Rating mixin - applied to posts for UGC rating (managed by OSGi service)
-[blogmix:rated] mixin
- - ratingCount (long) = 0 autocreated
- - ratingTotal (long) = 0 autocreated
-
 // ============================================================================
 // CORE CONTENT TYPES
 // ============================================================================
@@ -33,12 +28,14 @@
  + * (blognt:post) = blognt:post
 
 // Blog Post - Individual article with author, comments, rating
-[blognt:post] > jnt:content, mix:title, jmix:editorialContent, jmix:mainResource, jmix:structuredContent, jmix:tagged, blogmix:commentable, blogmix:rated
+// Note: Ratings and comments are managed by blog-service module in Live workspace
+[blognt:post] > jnt:content, mix:title, jmix:editorialContent, jmix:mainResource, jmix:structuredContent, jmix:tagged, blogmix:commentable
  - excerpt (string) i18n
  - content (string, richtext) i18n
  - datePublished (date)
  - dateModified (date)
  - author (weakreference) < 'blognt:author'
+ - image (weakreference, picker[type='image']) < 'jmix:image'
  + * (jnt:file) = jnt:file
 
 // Author - Person who writes blog posts
@@ -49,6 +46,8 @@
  - socialLinks (string) multiple
 
 // Comment - UGC comment on a blog post
+// Note: Actual comments are stored by blog-service in Live workspace
+// This definition is for reference and potential future use
 [blognt:comment] > jnt:content
  - authorName (string)
  - authorEmail (string)

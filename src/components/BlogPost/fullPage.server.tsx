@@ -158,6 +158,7 @@ jahiaComponent(
       "dateModified"?: string;
       "j:tagList"?: string[];
       "author"?: JCRNodeWrapper;
+      "image"?: JCRNodeWrapper;
       "ratingCount"?: number;
       "ratingTotal"?: number;
       "allowComments"?: boolean;
@@ -169,6 +170,7 @@ jahiaComponent(
       "dateModified",
       "j:tagList",
       "author",
+      "image",
       "ratingCount",
       "ratingTotal",
       "allowComments",
@@ -188,6 +190,17 @@ jahiaComponent(
 
     // Get author reference
     const authorNode = props.author;
+
+    // Get image URL if available
+    let imageUrl: string | undefined;
+    const imageNode = props.image;
+    if (imageNode && typeof imageNode.getUrl === "function") {
+      try {
+        imageUrl = imageNode.getUrl();
+      } catch (e) {
+        console.error("[BlogPost FullPage] Error getting image URL:", e);
+      }
+    }
 
     const datePublished = props.datePublished;
     const dateModified = props.dateModified;
@@ -213,6 +226,18 @@ jahiaComponent(
         {inlineContextScript && <AddResources type="inline" resources={inlineContextScript} />}
 
         <article className={classes.fullPage} itemScope itemType="https://schema.org/BlogPosting">
+          {/* Hero Image */}
+          {imageUrl && (
+            <div className={classes.fullPageHero}>
+              <img
+                src={imageUrl}
+                alt={title}
+                className={classes.fullPageHeroImage}
+                itemProp="image"
+              />
+            </div>
+          )}
+
           {/* Hero Section */}
           <header className={classes.fullPageHeader}>
             <div className={classes.fullPageContainer}>
