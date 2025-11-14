@@ -1,0 +1,64 @@
+<jnt = 'http://www.jahia.org/jahia/nt/1.0'>
+<jmix = 'http://www.jahia.org/jahia/mix/1.0'>
+<blognt = 'https://example.com/blog/nt/1.0'>
+<blogmix = 'https://example.com/blog/mix/1.0'>
+
+// Classic Blog Application - Content Model
+// Learn more: https://github.com/Jahia/javascript-modules/tree/main/docs/3-reference/1-cnd-format/
+
+// ============================================================================
+// MIXINS
+// ============================================================================
+
+// Marker mixin for droppable blog content in Content Editor
+[blogmix:blogContent] > jmix:droppableContent mixin
+
+// Commentable mixin - applied to posts to enable comments
+[blogmix:commentable] mixin
+ - allowComments (boolean) = true autocreated
+
+// Rating mixin - applied to posts for UGC rating (managed by OSGi service)
+[blogmix:rated] mixin
+ - ratingCount (long) = 0 autocreated
+ - ratingTotal (long) = 0 autocreated
+
+// ============================================================================
+// CORE CONTENT TYPES
+// ============================================================================
+
+// Blog - Main container for blog posts
+[blognt:blog] > jnt:content, mix:title, jmix:list, jmix:structuredContent, blogmix:blogContent orderable
+ - description (string, richtext) i18n
+ - pageSize (long) = 10 autocreated
+ + * (blognt:post) = blognt:post
+
+// Blog Post - Individual article with author, comments, rating
+[blognt:post] > jnt:content, mix:title, jmix:editorialContent, jmix:mainResource, jmix:structuredContent, jmix:tagged, blogmix:commentable, blogmix:rated
+ - excerpt (string) i18n
+ - content (string, richtext) i18n
+ - datePublished (date)
+ - dateModified (date)
+ - author (weakreference) < 'blognt:author'
+ + * (jnt:file) = jnt:file
+
+// Author - Person who writes blog posts
+[blognt:author] > jnt:content, mix:title, jmix:editorialContent, blogmix:blogContent
+ - bio (string, richtext) i18n
+ - role (string) i18n
+ - avatar (weakreference, picker[type='image']) < 'jmix:image'
+ - socialLinks (string) multiple
+
+// Comment - UGC comment on a blog post
+[blognt:comment] > jnt:content
+ - authorName (string)
+ - authorEmail (string)
+ - body (string, richtext)
+ - created (date)
+ - status (string) = 'pending' autocreated
+ - post (weakreference) < 'blognt:post'
+
+// Defining the content types is similar to defining a data model: once deployed, you cannot change the type of a property.
+// If you need to do changes during the development phase, it is possible to remove the definitions from the tools:
+// http://localhost:8080/cms/login?redirect=/modules/tools/definitionsBrowser.jsp however that will remove content created with this type.
+// Learn more about content types definitions here:
+// https://github.com/Jahia/javascript-modules/tree/main/docs/3-reference/1-cnd-format/

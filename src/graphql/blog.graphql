@@ -1,0 +1,423 @@
+# Blog Application - GraphQL Queries and Mutations# GetBlogPostsList - Fetch all blog posts from a blogfactory:blogPosts container
+
+# Following Jahia JCR GraphQL patternsquery GetBlogPostsList($listId: ID!, $lang: String!) {
+
+  jcr(workspace: EDIT) {
+
+# ============================================================================    nodeById(uuid: $listId) {
+
+# QUERIES      uuid
+
+# ============================================================================      property(name: "jcr:title", language: $lang) {
+
+        value
+
+# Get blog with list of posts      }
+
+query GetBlogPostsList($blogId: String!, $lang: String = "en") {      children(typesFilter: { types: ["blogfactory:blogPost"] }) {
+
+  jcr(workspace: EDIT) {        nodes {
+
+    nodeById(uuid: $blogId) {          uuid
+
+      uuid          path
+
+      displayName          property(name: "jcr:title", language: $lang) {
+
+      title: property(name: "jcr:title", language: $lang) { value }            value
+
+      description: property(name: "description", language: $lang) { value }          }
+
+      pageSize: property(name: "pageSize") { value }          property(name: "text", language: $lang) {
+
+            value
+
+      posts: children(typesFilter: { types: ["blognt:post"] }) {          }
+
+        nodes {          property(name: "j:tagList", language: $lang) {
+
+          uuid            values
+
+          displayName          }
+
+          title: property(name: "jcr:title", language: $lang) { value }          property(name: "ratingValue") {
+
+          slug: property(name: "slug") { value }            value
+
+          excerpt: property(name: "excerpt", language: $lang) { value }          }
+
+          datePublished: property(name: "datePublished") { value }          property(name: "ratingCount") {
+
+                      value
+
+          tags: property(name: "j:tagList") { values }          }
+
+                    children(typesFilter: { types: ["jnt:file"] }) {
+
+          author: property(name: "author") {            nodes {
+
+            refNode {              uuid
+
+              uuid              path
+
+              displayName              property(name: "jcr:title") {
+
+              name: property(name: "jcr:title", language: $lang) { value }                value
+
+            }              }
+
+          }            }
+
+        }          }
+
+      }        }
+
+    }      }
+
+  }    }
+
+}  }
+
+}
+
+# Get single blog post with full details
+
+query GetBlogPostById($postId: String!, $lang: String = "en") {# GetBlogPostById - Fetch a single blog post with all details including comments
+
+  jcr(workspace: EDIT) {query GetBlogPostById($postId: ID!, $lang: String!) {
+
+    nodeById(uuid: $postId) {  jcr(workspace: EDIT) {
+
+      uuid    nodeById(uuid: $postId) {
+
+      displayName      uuid
+
+      path      path
+
+      title: property(name: "jcr:title", language: $lang) { value }      property(name: "jcr:title", language: $lang) {
+
+      slug: property(name: "slug") { value }        value
+
+      content: property(name: "content", language: $lang) { value }      }
+
+      excerpt: property(name: "excerpt", language: $lang) { value }      property(name: "text", language: $lang) {
+
+      datePublished: property(name: "datePublished") { value }        value
+
+      dateModified: property(name: "dateModified") { value }      }
+
+            property(name: "j:tagList", language: $lang) {
+
+      tags: property(name: "j:tagList") { values }        values
+
+            }
+
+      author: property(name: "author") {      property(name: "ratingValue") {
+
+        refNode {        value
+
+          uuid      }
+
+          displayName      property(name: "ratingCount") {
+
+          name: property(name: "jcr:title", language: $lang) { value }        value
+
+          bio: property(name: "bio", language: $lang) { value }      }
+
+          role: property(name: "role", language: $lang) { value }      property(name: "shortView") {
+
+          avatar: property(name: "avatar") {        value
+
+            refNode {      }
+
+              uuid      # File attachments
+
+              path      children(typesFilter: { types: ["jnt:file"] }) {
+
+            }        nodes {
+
+          }          uuid
+
+          socialLinks: property(name: "socialLinks") { values }          path
+
+        }          property(name: "jcr:title") {
+
+      }            value
+
+                }
+
+      ratingCount: property(name: "ratingCount") { value }        }
+
+      ratingTotal: property(name: "ratingTotal") { value }      }
+
+      allowComments: property(name: "allowComments") { value }      # Comments topic child node
+
+            child(name: "comments") {
+
+      assets: children(typesFilter: { types: ["jnt:file"] }) {        children(typesFilter: { types: ["blogfactory:topic"] }) {
+
+        nodes {          nodes {
+
+          uuid            uuid
+
+          name            property(name: "topicSubject", language: $lang) {
+
+          path              value
+
+        }            }
+
+      }            property(name: "topicDescription", language: $lang) {
+
+    }              value
+
+  }            }
+
+}            property(name: "topicLastContributionDate") {
+
+              value
+
+# Get comments for a post            }
+
+query GetCommentsForPost($commentsRootPath: String!, $postId: String!) {            # Posts within each topic
+
+  jcr(workspace: EDIT) {            children(typesFilter: { types: ["blogfactory:post"] }) {
+
+    nodeByPath(path: $commentsRootPath) {              nodes {
+
+      comments: descendants(typesFilter: { types: ["blognt:comment"] }) {                uuid
+
+        nodes {                property(name: "jcr:title", language: $lang) {
+
+          uuid                  value
+
+          body: property(name: "body") { value }                }
+
+          authorName: property(name: "authorName") { value }                property(name: "content", language: $lang) {
+
+          created: property(name: "created") { value }                  value
+
+          status: property(name: "status") { value }                }
+
+          post: property(name: "post") {                property(name: "pseudo") {
+
+            refNode {                  value
+
+              uuid                }
+
+            }              }
+
+          }            }
+
+        }          }
+
+      }        }
+
+    }      }
+
+  }    }
+
+}  }
+
+}
+
+# Get author details
+
+query GetAuthorById($authorId: String!, $lang: String = "en") {# GetLatestBlogs - Fetch the N most recent blog posts
+
+  jcr(workspace: EDIT) {query GetLatestBlogs($listId: ID!, $lang: String!, $limit: Int!) {
+
+    nodeById(uuid: $authorId) {  jcr(workspace: EDIT) {
+
+      uuid    nodeById(uuid: $listId) {
+
+      displayName      uuid
+
+      name: property(name: "jcr:title", language: $lang) { value }      property(name: "jcr:title", language: $lang) {
+
+      bio: property(name: "bio", language: $lang) { value }        value
+
+      role: property(name: "role", language: $lang) { value }      }
+
+      avatar: property(name: "avatar") {      children(limit: $limit, typesFilter: { types: ["blogfactory:blogPost"] }) {
+
+        refNode {        nodes {
+
+          uuid          uuid
+
+          path          path
+
+        }          property(name: "jcr:title", language: $lang) {
+
+      }            value
+
+      socialLinks: property(name: "socialLinks") { values }          }
+
+    }          property(name: "text", language: $lang) {
+
+  }            value
+
+}          }
+
+          property(name: "j:tagList", language: $lang) {
+
+# ============================================================================            values
+
+# MUTATIONS (UGC Operations - Handled by OSGi Service in production)          }
+
+# ============================================================================        }
+
+      }
+
+# Create a new blog post    }
+
+mutation CreatePost($blogPath: String!, $lang: String!, $input: InputCreatePost!) {  }
+
+  jcr(workspace: EDIT) {}
+
+    addNode(
+      parentPathOrId: $blogPath
+      name: $input.slug
+      primaryNodeType: "blognt:post"
+    ) {
+      uuid
+      node {
+        setPropertiesBatch(properties: [
+          { name: "jcr:title", language: $lang, value: $input.title },
+          { name: "slug", value: $input.slug },
+          { name: "excerpt", language: $lang, value: $input.excerpt },
+          { name: "content", language: $lang, value: $input.content },
+          { name: "datePublished", value: $input.datePublished },
+          { name: "author", value: $input.authorId }
+        ]) {
+          uuid
+          path
+        }
+      }
+    }
+  }
+}
+
+# Update existing blog post
+mutation UpdatePost($postId: String!, $lang: String!, $input: InputUpdatePost!) {
+  jcr(workspace: EDIT) {
+    mutateNode(uuid: $postId) {
+      setPropertiesBatch(properties: [
+        { name: "jcr:title", language: $lang, value: $input.title },
+        { name: "excerpt", language: $lang, value: $input.excerpt },
+        { name: "content", language: $lang, value: $input.content },
+        { name: "dateModified", value: $input.dateModified }
+      ]) {
+        uuid
+        path
+      }
+    }
+  }
+}
+
+# Create a new comment (UGC)
+mutation CreateComment($commentsRootPath: String!, $input: InputCreateComment!) {
+  jcr(workspace: EDIT) {
+    addNode(
+      parentPathOrId: $commentsRootPath
+      name: "comment"
+      primaryNodeType: "blognt:comment"
+    ) {
+      uuid
+      node {
+        setPropertiesBatch(properties: [
+          { name: "authorName", value: $input.authorName },
+          { name: "authorEmail", value: $input.authorEmail },
+          { name: "body", value: $input.body },
+          { name: "created", value: $input.created },
+          { name: "status", value: "pending" },
+          { name: "post", value: $input.postId }
+        ]) {
+          uuid
+        }
+      }
+    }
+  }
+}
+
+# Moderate comment (approve/reject)
+mutation ModerateComment($commentId: String!, $status: String!) {
+  jcr(workspace: EDIT) {
+    mutateNode(uuid: $commentId) {
+      setPropertiesBatch(properties: [
+        { name: "status", value: $status }
+      ]) {
+        uuid
+      }
+    }
+  }
+}
+
+# Rate a post (increment rating count and total)
+# Note: In production, this logic should be in OSGi service for atomic updates
+mutation RatePost($postId: String!, $ratingValue: Long!) {
+  jcr(workspace: EDIT) {
+    mutateNode(uuid: $postId) {
+      uuid
+      # In reality, OSGi service would handle:
+      # - Increment ratingCount by 1
+      # - Increment ratingTotal by $ratingValue
+      # - Validate user hasn't already rated
+    }
+  }
+}
+
+# Create author
+mutation CreateAuthor($sitePath: String!, $lang: String!, $input: InputCreateAuthor!) {
+  jcr(workspace: EDIT) {
+    addNode(
+      parentPathOrId: $sitePath
+      name: $input.name
+      primaryNodeType: "blognt:author"
+    ) {
+      uuid
+      node {
+        setPropertiesBatch(properties: [
+          { name: "jcr:title", language: $lang, value: $input.name },
+          { name: "bio", language: $lang, value: $input.bio },
+          { name: "role", language: $lang, value: $input.role }
+        ]) {
+          uuid
+        }
+      }
+    }
+  }
+}
+
+# ============================================================================
+# INPUT TYPES (for TypeScript typing)
+# ============================================================================
+
+# input InputCreatePost {
+#   slug: String!
+#   title: String!
+#   excerpt: String
+#   content: String!
+#   datePublished: String!
+#   authorId: String!
+# }
+
+# input InputUpdatePost {
+#   title: String
+#   excerpt: String
+#   content: String
+#   dateModified: String!
+# }
+
+# input InputCreateComment {
+#   postId: String!
+#   authorName: String!
+#   authorEmail: String!
+#   body: String!
+#   created: String!
+# }
+
+# input InputCreateAuthor {
+#   name: String!
+#   bio: String
+#   role: String
+# }

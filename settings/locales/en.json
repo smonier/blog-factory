@@ -1,0 +1,53 @@
+{
+  "blog.title": "Blog",
+  "blog.latest": "Latest posts",
+  "blog.readMore": "Read more",
+  "blog.noPosts": "No posts available.",
+  "blog.post": "Post",
+  "blog.posts": "Posts",
+  "blog.publishedOn": "Published on",
+  "blog.updatedOn": "Updated on",
+  "blog.by": "by",
+  "blog.author": "Author",
+  "blog.tags": "Tags",
+  "blog.categories": "Categories",
+
+  "blog.rating": "Rating",
+  "blog.rate": "Rate this post",
+  "blog.ratingCount": "{count} rating",
+  "blog.ratingCount_plural": "{count} ratings",
+  "blog.averageRating": "Average rating",
+  "blog.thankYouRating": "Thank you for rating!",
+
+  "blog.comments": "Comments",
+  "blog.comment": "Comment",
+  "blog.addComment": "Add a comment",
+  "blog.noComments": "No comments yet.",
+  "blog.commentPending": "Comment submitted! It will appear after moderation.",
+  "blog.commentError": "Failed to submit comment. Please try again.",
+  "blog.commentName": "Name",
+  "blog.commentEmail": "Email",
+  "blog.commentEmailNote": "(will not be published)",
+  "blog.commentBody": "Comment",
+  "blog.commentRequired": "All fields are required.",
+
+  "blog.submit": "Submit",
+  "blog.submitting": "Submitting...",
+  "blog.edit": "Edit post",
+  "blog.create": "Create post",
+  "blog.delete": "Delete",
+  "blog.cancel": "Cancel",
+  "blog.save": "Save",
+
+  "blog.author.about": "About the Author",
+  "blog.author.bio": "Bio",
+  "blog.author.role": "Role",
+  "blog.author.contact": "Contact",
+
+  "blog.attachments": "Attachments",
+  "blog.download": "Download",
+
+  "blog.error.notFound": "Blog post not found.",
+  "blog.error.notAvailable": "Content not available.",
+  "blog.error.loadingFailed": "Failed to load content."
+}

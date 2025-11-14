@@ -1,0 +1,464 @@
+.root {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+  color: #1a1a1a;
+}
+
+.meta {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.authorMeta {
+  font-style: italic;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(0, 102, 204, 0.08);
+  color: #0066cc;
+  border-radius: 12px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.content {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #222;
+  margin-bottom: 2.5rem;
+}
+
+.content h2 {
+  font-size: 1.75rem;
+  margin: 2rem 0 1rem;
+  font-weight: 600;
+}
+
+.content h3 {
+  font-size: 1.375rem;
+  margin: 1.5rem 0 0.75rem;
+  font-weight: 600;
+}
+
+.content p {
+  margin: 0 0 1rem;
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.content a {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+.content code {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: "Monaco", "Courier New", monospace;
+}
+
+.assets {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.assets h3 {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.assets ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.assets li {
+  margin-bottom: 0.5rem;
+}
+
+.assets a {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.assets a:hover {
+  text-decoration: underline;
+}
+
+.authorCard {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  background: rgba(0, 102, 204, 0.03);
+  border-left: 3px solid #0066cc;
+  border-radius: 4px;
+}
+
+.authorCard h3 {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0066cc;
+}
+
+.rating {
+  margin: 2.5rem 0;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.comments {
+  margin: 2.5rem 0 0;
+  padding-top: 2.5rem;
+  border-top: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (min-width: 768px) {
+  .root {
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .title {
+    font-size: 2.75rem;
+  }
+
+  .content {
+    font-size: 1.125rem;
+  }
+
+  .content h2 {
+    font-size: 2rem;
+  }
+
+  .content h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Full Page View Styles */
+.fullPage {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.fullPageHeader {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4rem 1rem 3rem;
+  text-align: center;
+}
+
+.fullPageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.fullPageTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.fullPageTag {
+  display: inline-block;
+  padding: 0.375rem 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.fullPageTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fullPageExcerpt {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+  opacity: 0.95;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fullPageMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  font-size: 0.9375rem;
+  opacity: 0.9;
+}
+
+.fullPageDate {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.fullPageRating {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.fullPageLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: -2rem;
+  position: relative;
+}
+
+.fullPageContent {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.fullPageArticle {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: #1a1a1a;
+  margin-bottom: 3rem;
+}
+
+.fullPageArticle h1,
+.fullPageArticle h2,
+.fullPageArticle h3,
+.fullPageArticle h4 {
+  margin: 2rem 0 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1a1a1a;
+}
+
+.fullPageArticle h1 {
+  font-size: 2rem;
+}
+
+.fullPageArticle h2 {
+  font-size: 1.75rem;
+}
+
+.fullPageArticle h3 {
+  font-size: 1.5rem;
+}
+
+.fullPageArticle p {
+  margin: 0 0 1.5rem;
+}
+
+.fullPageArticle ul,
+.fullPageArticle ol {
+  margin: 0 0 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.fullPageArticle li {
+  margin-bottom: 0.5rem;
+}
+
+.fullPageArticle a {
+  color: #667eea;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+  transition: all 0.2s;
+}
+
+.fullPageArticle a:hover {
+  color: #764ba2;
+  border-bottom-color: #764ba2;
+}
+
+.fullPageArticle code {
+  background: #f5f5f5;
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+  font-size: 0.875em;
+  font-family: "Monaco", "Courier New", monospace;
+}
+
+.fullPageArticle pre {
+  background: #1a1a1a;
+  color: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0 0 1.5rem;
+}
+
+.fullPageArticle pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.fullPageArticle blockquote {
+  border-left: 4px solid #667eea;
+  padding-left: 1.5rem;
+  margin: 0 0 1.5rem;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.fullPageRatingWidget,
+.fullPageComments {
+  border-top: 2px solid rgba(0, 0, 0, 0.06);
+  padding-top: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+.fullPageRatingWidget h3,
+.fullPageComments h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  color: #1a1a1a;
+}
+
+.fullPageSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.fullPageAuthorBox,
+.fullPageStats,
+.fullPageTagsBox {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.fullPageSidebarTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  color: #1a1a1a;
+}
+
+.fullPageStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.fullPageStat {
+  text-align: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: 8px;
+}
+
+.fullPageStatValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 0.25rem;
+}
+
+.fullPageStatLabel {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.fullPageTagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.fullPageSidebarTag {
+  display: inline-block;
+  padding: 0.375rem 0.875rem;
+  background: rgba(102, 126, 234, 0.08);
+  color: #667eea;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .fullPageHeader {
+    padding: 5rem 1.5rem 4rem;
+  }
+
+  .fullPageTitle {
+    font-size: 3.5rem;
+  }
+
+  .fullPageExcerpt {
+    font-size: 1.35rem;
+  }
+
+  .fullPageContent {
+    padding: 3rem;
+  }
+
+  .fullPageArticle {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fullPageLayout {
+    grid-template-columns: 1fr 320px;
+    gap: 2.5rem;
+  }
+
+  .fullPageSidebar {
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+  }
+}

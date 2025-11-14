@@ -1,0 +1,53 @@
+{
+  "blog.title": "Blog",
+  "blog.latest": "Derniers articles",
+  "blog.readMore": "Lire la suite",
+  "blog.noPosts": "Aucun article disponible.",
+  "blog.post": "Article",
+  "blog.posts": "Articles",
+  "blog.publishedOn": "Publié le",
+  "blog.updatedOn": "Mis à jour le",
+  "blog.by": "par",
+  "blog.author": "Auteur",
+  "blog.tags": "Étiquettes",
+  "blog.categories": "Catégories",
+
+  "blog.rating": "Note",
+  "blog.rate": "Noter cet article",
+  "blog.ratingCount": "{count} note",
+  "blog.ratingCount_plural": "{count} notes",
+  "blog.averageRating": "Note moyenne",
+  "blog.thankYouRating": "Merci d'avoir noté!",
+
+  "blog.comments": "Commentaires",
+  "blog.comment": "Commentaire",
+  "blog.addComment": "Ajouter un commentaire",
+  "blog.noComments": "Aucun commentaire pour le moment.",
+  "blog.commentPending": "Commentaire soumis! Il apparaîtra après modération.",
+  "blog.commentError": "Échec de l'envoi du commentaire. Veuillez réessayer.",
+  "blog.commentName": "Nom",
+  "blog.commentEmail": "Email",
+  "blog.commentEmailNote": "(ne sera pas publié)",
+  "blog.commentBody": "Commentaire",
+  "blog.commentRequired": "Tous les champs sont obligatoires.",
+
+  "blog.submit": "Envoyer",
+  "blog.submitting": "Envoi en cours...",
+  "blog.edit": "Modifier l'article",
+  "blog.create": "Créer un article",
+  "blog.delete": "Supprimer",
+  "blog.cancel": "Annuler",
+  "blog.save": "Enregistrer",
+
+  "blog.author.about": "À propos de l'auteur",
+  "blog.author.bio": "Biographie",
+  "blog.author.role": "Rôle",
+  "blog.author.contact": "Contact",
+
+  "blog.attachments": "Pièces jointes",
+  "blog.download": "Télécharger",
+
+  "blog.error.notFound": "Article introuvable.",
+  "blog.error.notAvailable": "Contenu non disponible.",
+  "blog.error.loadingFailed": "Échec du chargement du contenu."
+}

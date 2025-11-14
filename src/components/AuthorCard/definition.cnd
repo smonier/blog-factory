@@ -1,0 +1,2 @@
+// AuthorCard view is registered via jahiaComponent in default.server.tsx
+// The content type blognt:author is defined in settings/definitions.cnd

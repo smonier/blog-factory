@@ -1,0 +1,2 @@
+// BlogPost view is registered via jahiaComponent in default.server.tsx
+// The content type blognt:post is defined in settings/definitions.cnd
