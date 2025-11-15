@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getRating } from "../../services/blogService";
+import { getRating, getComments } from "../../services/blogService";
+import { eventBus, EVENTS } from "../../lib/eventBus";
 import classes from "./BlogPost.module.css";
 
 type Props = {
@@ -14,18 +15,52 @@ const RatingStatsIsland = ({ postId, type }: Props) => {
 
   const [averageRating, setAverageRating] = useState(0);
   const [ratingCount, setRatingCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchRating = async () => {
+    const result = await getRating(postId);
+    if (result.success && result.data) {
+      setAverageRating(result.data.averageRating);
+      setRatingCount(result.data.ratingCount);
+    }
+    setIsLoading(false);
+  };
+
+  const fetchCommentCount = async () => {
+    const result = await getComments(postId);
+    if (result.success && result.data) {
+      setCommentCount(result.data.total);
+    }
+  };
+
   useEffect(() => {
-    const fetchRating = async () => {
-      const result = await getRating(postId);
-      if (result.success && result.data) {
-        setAverageRating(result.data.averageRating);
-        setRatingCount(result.data.ratingCount);
-      }
-      setIsLoading(false);
-    };
     fetchRating();
+    fetchCommentCount();
+  }, [postId]);
+
+  // Listen for rating and comment events to refresh stats
+  useEffect(() => {
+    const unsubscribeRating = eventBus.on(EVENTS.RATING_UPDATED, (data) => {
+      const eventData = data as { postId: string } | undefined;
+      if (eventData?.postId === postId) {
+        console.log("[RatingStats] Rating updated event received, refreshing stats");
+        fetchRating();
+      }
+    });
+
+    const unsubscribeComment = eventBus.on(EVENTS.COMMENT_ADDED, (data) => {
+      const eventData = data as { postId: string } | undefined;
+      if (eventData?.postId === postId) {
+        console.log("[RatingStats] Comment added event received, refreshing stats");
+        fetchCommentCount();
+      }
+    });
+
+    return () => {
+      unsubscribeRating();
+      unsubscribeComment();
+    };
   }, [postId]);
 
   if (type === "inline") {
@@ -64,6 +99,10 @@ const RatingStatsIsland = ({ postId, type }: Props) => {
           <div className={classes.fullPageStatLabel}>Average</div>
         </div>
       )}
+      <div className={classes.fullPageStat}>
+        <div className={classes.fullPageStatValue}>{commentCount}</div>
+        <div className={classes.fullPageStatLabel}>Comments</div>
+      </div>
     </>
   );
 };

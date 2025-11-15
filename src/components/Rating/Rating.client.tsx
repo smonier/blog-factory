@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ratePost, getRating } from "../../services/blogService";
+import { eventBus, EVENTS } from "../../lib/eventBus";
 import classes from "./Rating.module.css";
 
 type Props = {
@@ -61,6 +62,9 @@ const RatingIsland = ({ postId, averageRating, ratingCount, csrfToken }: Props) 
         setHasRated(true);
 
         console.log("[Rating] Successfully rated post:", { postId, rating });
+
+        // Emit event to notify other components (like stats sidebar)
+        eventBus.emit(EVENTS.RATING_UPDATED, { postId });
       } else {
         console.error("[Rating] Failed to rate post:", result.error);
         setUserRating(null);

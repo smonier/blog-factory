@@ -8,7 +8,7 @@ import {
 } from "@jahia/javascript-modules-library";
 import type { JCRNodeWrapper } from "org.jahia.services.content";
 import type { Resource, RenderContext } from "org.jahia.services.render";
-import { getMessageFromContext } from "../../lib/i18n";
+import { getMessageFromContext, getLocale } from "../../lib/i18n";
 import RatingIsland from "../Rating/Rating.client";
 import CommentsIsland from "../Comments/Comments.client";
 import RatingStatsIsland from "./RatingStats.client";
@@ -128,6 +128,7 @@ jahiaComponent(
   },
   (_props, context: ServerContext) => {
     const csrfToken = resolveCsrfToken(context.renderContext);
+    const locale = getLocale(context.renderContext);
 
     // Debug: Log if token was found
     if (csrfToken) {
@@ -328,6 +329,7 @@ jahiaComponent(
                       props={{
                         postId,
                         csrfToken,
+                        locale,
                       }}
                     />
                   </aside>

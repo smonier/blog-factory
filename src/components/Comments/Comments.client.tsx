@@ -1,16 +1,36 @@
 import { useState, useEffect } from "react";
 import { getComments, createComment, type Comment } from "../../services/blogService";
+import { eventBus, EVENTS } from "../../lib/eventBus";
 import classes from "./Comments.module.css";
 
 type Props = {
   postId: string;
   initialComments?: Comment[];
   csrfToken?: string;
+  locale?: string;
+};
+
+// Import locale files
+import enLocale from "../../../settings/locales/en.json";
+import frLocale from "../../../settings/locales/fr.json";
+import esLocale from "../../../settings/locales/es.json";
+import deLocale from "../../../settings/locales/de.json";
+
+const locales: Record<string, Record<string, string>> = {
+  en: enLocale as Record<string, string>,
+  fr: frLocale as Record<string, string>,
+  es: esLocale as Record<string, string>,
+  de: deLocale as Record<string, string>,
+};
+
+const getMessage = (key: string, locale: string = "en"): string => {
+  const messages = locales[locale] || locales.en;
+  return messages[key] || key;
 };
 
 const EMPTY_COMMENTS: Comment[] = [];
 
-const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
+const CommentsIsland = ({ postId, initialComments, csrfToken, locale = "en" }: Props) => {
   // Guard against SSR
   if (typeof window === "undefined") {
     return null;
@@ -59,7 +79,7 @@ const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
     evt.preventDefault();
 
     if (!authorName.trim() || !authorEmail.trim() || !body.trim()) {
-      setMessage({ type: "error", text: "All fields are required" });
+      setMessage({ type: "error", text: getMessage("blog.commentRequired", locale) });
       return;
     }
 
@@ -78,7 +98,7 @@ const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
         // Show success message
         setMessage({
           type: "success",
-          text: "Comment submitted! It will appear after moderation.",
+          text: getMessage("blog.commentPending", locale),
         });
 
         // Clear form
@@ -87,15 +107,23 @@ const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
         setBody("");
 
         console.log("[Comments] Successfully submitted comment:", result.data);
+
+        // If comment was approved immediately (no moderation), emit event to update stats
+        if (result.data.status === "approved") {
+          console.log("[Comments] Comment approved immediately, emitting event");
+          eventBus.emit(EVENTS.COMMENT_ADDED, { postId });
+          // Reload comments to show the new one
+          loadComments();
+        }
       } else {
         setMessage({
           type: "error",
-          text: result.error || "Failed to submit comment. Please try again.",
+          text: result.error || getMessage("blog.commentError", locale),
         });
       }
     } catch (error) {
       console.error("[Comments] Error submitting comment:", error);
-      setMessage({ type: "error", text: "An error occurred. Please try again." });
+      setMessage({ type: "error", text: getMessage("blog.commentError", locale) });
     } finally {
       setIsSubmitting(false);
     }
@@ -119,7 +147,9 @@ const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
 
   return (
     <div className={classes.root}>
-      <h3 className={classes.heading}>Comments ({isLoading ? "..." : approvedComments.length})</h3>
+      <h3 className={classes.heading}>
+        {getMessage("blog.comments", locale)} ({isLoading ? "..." : approvedComments.length})
+      </h3>
 
       {approvedComments.length > 0 && (
         <ul className={classes.list}>
@@ -139,12 +169,12 @@ const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
       )}
 
       <div className={classes.formSection}>
-        <h4 className={classes.formHeading}>Add a comment</h4>
+        <h4 className={classes.formHeading}>{getMessage("blog.addComment", locale)}</h4>
 
         <form onSubmit={handleSubmit} className={classes.form}>
           <div className={classes.formGroup}>
             <label htmlFor="comment-name" className={classes.label}>
-              Name *
+              {getMessage("blog.commentName", locale)} *
             </label>
             <input
               id="comment-name"
@@ -159,7 +189,8 @@ const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
 
           <div className={classes.formGroup}>
             <label htmlFor="comment-email" className={classes.label}>
-              Email * (will not be published)
+              {getMessage("blog.commentEmail", locale)} *{" "}
+              {getMessage("blog.commentEmailNote", locale)}
             </label>
             <input
               id="comment-email"
@@ -174,7 +205,7 @@ const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
 
           <div className={classes.formGroup}>
             <label htmlFor="comment-body" className={classes.label}>
-              Comment *
+              {getMessage("blog.commentBody", locale)} *
             </label>
             <textarea
               id="comment-body"
@@ -198,7 +229,9 @@ const CommentsIsland = ({ postId, initialComments, csrfToken }: Props) => {
           )}
 
           <button type="submit" className={classes.submit} disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit Comment"}
+            {isSubmitting
+              ? getMessage("blog.submitting", locale)
+              : getMessage("blog.submit", locale)}
           </button>
         </form>
       </div>
