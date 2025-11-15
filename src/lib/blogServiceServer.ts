@@ -3,7 +3,7 @@
  * Fetches ratings and comments from Live workspace
  */
 
-const GRAPHQL_ENDPOINT = "http://localhost:8080/modules/graphql";
+const GRAPHQL_ENDPOINT = "/modules/graphql";
 
 interface RatingResponse {
   postId: string;

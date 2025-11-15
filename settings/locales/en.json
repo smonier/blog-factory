@@ -44,6 +44,9 @@
   "blog.author.role": "Role",
   "blog.author.contact": "Contact",
 
+  "blog.postStats": "Post Stats",
+  "blog.topics": "Topics",
+
   "blog.attachments": "Attachments",
   "blog.download": "Download",
 

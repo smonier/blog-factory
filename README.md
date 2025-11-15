@@ -10,7 +10,7 @@ A modern, full-featured blog application for Jahia DX, built with React Server C
 - **🏝️ Island Architecture**: Server-side rendering with selective client-side hydration for interactive features
 - **🖼️ Media Support**: Hero images for full posts, thumbnails for card views
 - **👤 Author Profiles**: Dedicated author content type with bio, role, avatar, and social links
-- **🌍 Internationalized**: English and French translations included
+- **🌍 Internationalized**: Full support for English, French, Spanish, and German
 - **♿ Accessible**: Semantic HTML with proper ARIA attributes and Schema.org markup
 
 ## Prerequisites
@@ -126,8 +126,8 @@ blog-factory/
 │       └── content.ts         # TypeScript type definitions
 ├── settings/
 │   ├── definitions.cnd        # JCR content type definitions
-│   ├── locales/               # i18n translations (en, fr)
-│   └── resources/             # Resource bundles
+│   ├── locales/               # i18n translations (en, fr, es, de)
+│   └── resources/             # Resource bundles (en, fr, es, de)
 └── docker/                    # Docker configuration for development
 ```
 
@@ -332,6 +332,24 @@ Comments require moderation through the blog-service API. Only approved comments
 - Responsive breakpoints: 480px, 768px, 1024px
 - CSS variables for consistent theming
 - Mobile-first approach
+
+### Internationalization
+
+The module includes complete translations for four languages:
+
+**Supported Languages:**
+
+- 🇬🇧 English (en)
+- 🇫🇷 French (fr)
+- 🇪🇸 Spanish (es)
+- 🇩🇪 German (de)
+
+**Translation Files:**
+
+- **Locale files** (`settings/locales/*.json`): UI strings, messages, labels
+- **Resource bundles** (`settings/resources/blog-factory_*.properties`): Content type labels, tooltips, view descriptions
+
+All user-facing text, content type definitions, and administrative labels are fully translated.
 
 ## Troubleshooting
 

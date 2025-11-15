@@ -8,6 +8,7 @@ import {
 } from "@jahia/javascript-modules-library";
 import type { JCRNodeWrapper } from "org.jahia.services.content";
 import type { Resource, RenderContext } from "org.jahia.services.render";
+import { getMessageFromContext } from "../../lib/i18n";
 import RatingIsland from "../Rating/Rating.client";
 import CommentsIsland from "../Comments/Comments.client";
 import RatingStatsIsland from "./RatingStats.client";
@@ -306,7 +307,7 @@ jahiaComponent(
 
                 {/* Interactive Rating */}
                 <aside className={classes.fullPageRatingWidget}>
-                  <h3>Rate this post</h3>
+                  <h3>{getMessageFromContext("blog.rate", context.renderContext)}</h3>
                   <Island
                     component={RatingIsland}
                     props={{
@@ -321,7 +322,7 @@ jahiaComponent(
                 {/* Comments Section */}
                 {props.allowComments !== false && (
                   <aside className={classes.fullPageComments}>
-                    <h3>Comments</h3>
+                    <h3>{getMessageFromContext("blog.comments", context.renderContext)}</h3>
                     <Island
                       component={CommentsIsland}
                       props={{
@@ -338,14 +339,18 @@ jahiaComponent(
                 {/* Author Card */}
                 {authorNode && (
                   <div className={classes.fullPageAuthorBox}>
-                    <h3 className={classes.fullPageSidebarTitle}>About the Author</h3>
+                    <h3 className={classes.fullPageSidebarTitle}>
+                      {getMessageFromContext("blog.author.about", context.renderContext)}
+                    </h3>
                     <Render node={authorNode} view="default" />
                   </div>
                 )}
 
                 {/* Quick Stats */}
                 <div className={classes.fullPageStats}>
-                  <h3 className={classes.fullPageSidebarTitle}>Post Stats</h3>
+                  <h3 className={classes.fullPageSidebarTitle}>
+                    {getMessageFromContext("blog.postStats", context.renderContext)}
+                  </h3>
                   <div className={classes.fullPageStatsGrid}>
                     <Island
                       component={RatingStatsIsland}
@@ -360,7 +365,9 @@ jahiaComponent(
                 {/* Tags */}
                 {tags.length > 0 && (
                   <div className={classes.fullPageTagsBox}>
-                    <h3 className={classes.fullPageSidebarTitle}>Topics</h3>
+                    <h3 className={classes.fullPageSidebarTitle}>
+                      {getMessageFromContext("blog.topics", context.renderContext)}
+                    </h3>
                     <div className={classes.fullPageTagsList}>
                       {tags.map((tag) => (
                         <span key={tag} className={classes.fullPageSidebarTag}>

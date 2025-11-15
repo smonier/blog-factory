@@ -1,0 +1,56 @@
+{
+  "blog.title": "Blog",
+  "blog.latest": "Neueste Beiträge",
+  "blog.readMore": "Weiterlesen",
+  "blog.noPosts": "Keine Beiträge verfügbar.",
+  "blog.post": "Beitrag",
+  "blog.posts": "Beiträge",
+  "blog.publishedOn": "Veröffentlicht am",
+  "blog.updatedOn": "Aktualisiert am",
+  "blog.by": "von",
+  "blog.author": "Autor",
+  "blog.tags": "Schlagwörter",
+  "blog.categories": "Kategorien",
+
+  "blog.rating": "Bewertung",
+  "blog.rate": "Diesen Beitrag bewerten",
+  "blog.ratingCount": "{count} Bewertung",
+  "blog.ratingCount_plural": "{count} Bewertungen",
+  "blog.averageRating": "Durchschnittliche Bewertung",
+  "blog.thankYouRating": "Vielen Dank für Ihre Bewertung!",
+
+  "blog.comments": "Kommentare",
+  "blog.comment": "Kommentar",
+  "blog.addComment": "Kommentar hinzufügen",
+  "blog.noComments": "Noch keine Kommentare.",
+  "blog.commentPending": "Kommentar eingereicht! Er wird nach der Moderation angezeigt.",
+  "blog.commentError": "Fehler beim Senden des Kommentars. Bitte versuchen Sie es erneut.",
+  "blog.commentName": "Name",
+  "blog.commentEmail": "E-Mail",
+  "blog.commentEmailNote": "(wird nicht veröffentlicht)",
+  "blog.commentBody": "Kommentar",
+  "blog.commentRequired": "Alle Felder sind erforderlich.",
+
+  "blog.submit": "Absenden",
+  "blog.submitting": "Wird gesendet...",
+  "blog.edit": "Beitrag bearbeiten",
+  "blog.create": "Beitrag erstellen",
+  "blog.delete": "Löschen",
+  "blog.cancel": "Abbrechen",
+  "blog.save": "Speichern",
+
+  "blog.author.about": "Über den Autor",
+  "blog.author.bio": "Biografie",
+  "blog.author.role": "Rolle",
+  "blog.author.contact": "Kontakt",
+
+  "blog.postStats": "Beitragsstatistiken",
+  "blog.topics": "Themen",
+
+  "blog.attachments": "Anhänge",
+  "blog.download": "Herunterladen",
+
+  "blog.error.notFound": "Blogbeitrag nicht gefunden.",
+  "blog.error.notAvailable": "Inhalt nicht verfügbar.",
+  "blog.error.loadingFailed": "Fehler beim Laden des Inhalts."
+}

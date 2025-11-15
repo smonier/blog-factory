@@ -7,12 +7,14 @@ import {
   Island,
 } from "@jahia/javascript-modules-library";
 import type { JCRNodeWrapper } from "org.jahia.services.content";
-import type { Resource } from "org.jahia.services.render";
+import type { Resource, RenderContext } from "org.jahia.services.render";
+import { getMessageFromContext } from "../../lib/i18n";
 import CardRatingIsland from "./CardRating.client";
 import classes from "./BlogList.module.css";
 
 type ServerContext = {
   currentResource?: Resource;
+  renderContext?: RenderContext;
 };
 
 // Helper to get child nodes
@@ -50,7 +52,11 @@ jahiaComponent(
     })();
 
     if (!node) {
-      return <div className={classes.root}>No blog content available</div>;
+      return (
+        <div className={classes.root}>
+          {getMessageFromContext("blog.error.notAvailable", context.renderContext)}
+        </div>
+      );
     }
 
     const props = getNodeProps<{
@@ -165,7 +171,9 @@ jahiaComponent(
 
                   <div className={classes.cardFooter}>
                     {post.authorName && (
-                      <span className={classes.cardAuthor}>by {post.authorName}</span>
+                      <span className={classes.cardAuthor}>
+                        {getMessageFromContext("blog.by", context.renderContext)} {post.authorName}
+                      </span>
                     )}
 
                     <div className={classes.cardRating}>
@@ -179,13 +187,15 @@ jahiaComponent(
                   </div>
 
                   <a href={buildNodeUrl(post.node)} className={classes.cardLink}>
-                    Read more →
+                    {getMessageFromContext("blog.readMore", context.renderContext)} →
                   </a>
                 </article>
               ))}
             </div>
           ) : (
-            <p className={classes.noPosts}>No posts available.</p>
+            <p className={classes.noPosts}>
+              {getMessageFromContext("blog.noPosts", context.renderContext)}
+            </p>
           )}
         </div>
       </>
