@@ -62,10 +62,31 @@ jahiaComponent(
     const props = getNodeProps<{
       "jcr:title"?: string;
       "description"?: string;
-    }>(node, ["jcr:title", "description"]);
+      "pageSize"?: number;
+    }>(node, ["jcr:title", "description", "pageSize"]);
 
     const title = props["jcr:title"] ?? "Blog";
     const description = props.description;
+    const pageSize = props.pageSize ?? 10;
+
+    // Get current page from URL parameter (default to 1)
+    let currentPage = 1;
+    try {
+      if (context.renderContext && typeof context.renderContext.getRequest === "function") {
+        const request = context.renderContext.getRequest();
+        if (request && typeof request.getParameter === "function") {
+          const pageParam = request.getParameter("page");
+          if (pageParam) {
+            const parsedPage = parseInt(pageParam, 10);
+            if (!isNaN(parsedPage) && parsedPage > 0) {
+              currentPage = parsedPage;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.error("[BlogList Cards] Error getting page parameter:", e);
+    }
 
     // Collect child posts
     const childNodes = getChildNodes(node);
@@ -139,6 +160,29 @@ jahiaComponent(
         };
       });
 
+    // Pagination calculations
+    const totalPosts = posts.length;
+    const totalPages = Math.ceil(totalPosts / pageSize);
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedPosts = posts.slice(startIndex, endIndex);
+
+    // Generate pagination URL helper
+    const getPageUrl = (page: number): string => {
+      try {
+        if (context.renderContext && typeof context.renderContext.getRequest === "function") {
+          const request = context.renderContext.getRequest();
+          if (request && typeof request.getRequestURI === "function") {
+            const baseUrl = request.getRequestURI();
+            return `${baseUrl}?page=${page}`;
+          }
+        }
+      } catch (e) {
+        console.error("[BlogList Cards] Error building page URL:", e);
+      }
+      return `?page=${page}`;
+    };
+
     return (
       <>
         <AddResources type="css" resources={buildModuleFileUrl("dist/assets/style.css")} />
@@ -153,45 +197,76 @@ jahiaComponent(
             )}
           </header>
 
-          {posts.length > 0 ? (
-            <div className={classes.cardsGrid}>
-              {posts.map((post) => (
-                <article key={post.id} className={classes.card}>
-                  {post.imageUrl && (
-                    <div className={classes.cardImageWrapper}>
-                      <img src={post.imageUrl} alt={post.title} className={classes.cardImage} />
-                    </div>
-                  )}
-
-                  <h2 className={classes.cardTitle}>
-                    <a href={buildNodeUrl(post.node)}>{post.title}</a>
-                  </h2>
-
-                  {post.excerpt && <p className={classes.cardExcerpt}>{post.excerpt}</p>}
-
-                  <div className={classes.cardFooter}>
-                    {post.authorName && (
-                      <span className={classes.cardAuthor}>
-                        {getMessageFromContext("blog.by", context.renderContext)} {post.authorName}
-                      </span>
+          {totalPosts > 0 ? (
+            <>
+              <div className={classes.cardsGrid}>
+                {paginatedPosts.map((post) => (
+                  <article key={post.id} className={classes.card}>
+                    {post.imageUrl && (
+                      <div className={classes.cardImageWrapper}>
+                        <img src={post.imageUrl} alt={post.title} className={classes.cardImage} />
+                      </div>
                     )}
 
-                    <div className={classes.cardRating}>
-                      <Island
-                        component={CardRatingIsland}
-                        props={{
-                          postId: post.id,
-                        }}
-                      />
-                    </div>
-                  </div>
+                    <h2 className={classes.cardTitle}>
+                      <a href={buildNodeUrl(post.node)}>{post.title}</a>
+                    </h2>
 
-                  <a href={buildNodeUrl(post.node)} className={classes.cardLink}>
-                    {getMessageFromContext("blog.readMore", context.renderContext)} →
-                  </a>
-                </article>
-              ))}
-            </div>
+                    {post.excerpt && <p className={classes.cardExcerpt}>{post.excerpt}</p>}
+
+                    <div className={classes.cardFooter}>
+                      {post.authorName && (
+                        <span className={classes.cardAuthor}>
+                          {getMessageFromContext("blog.by", context.renderContext)}{" "}
+                          {post.authorName}
+                        </span>
+                      )}
+
+                      <div className={classes.cardRating}>
+                        <Island
+                          component={CardRatingIsland}
+                          props={{
+                            postId: post.id,
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <a href={buildNodeUrl(post.node)} className={classes.cardLink}>
+                      {getMessageFromContext("blog.readMore", context.renderContext)} →
+                    </a>
+                  </article>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <nav className={classes.pagination}>
+                  {currentPage > 1 ? (
+                    <a href={getPageUrl(currentPage - 1)} className={classes.paginationLink}>
+                      &larr;{" "}
+                      {getMessageFromContext("blog.previous", context.renderContext) || "Previous"}
+                    </a>
+                  ) : (
+                    <span />
+                  )}
+
+                  <span className={classes.paginationInfo}>
+                    {getMessageFromContext("blog.page", context.renderContext) || "Page"}{" "}
+                    {currentPage} {getMessageFromContext("blog.of", context.renderContext) || "of"}{" "}
+                    {totalPages}
+                  </span>
+
+                  {currentPage < totalPages ? (
+                    <a href={getPageUrl(currentPage + 1)} className={classes.paginationLink}>
+                      {getMessageFromContext("blog.next", context.renderContext) || "Next"} &rarr;
+                    </a>
+                  ) : (
+                    <span />
+                  )}
+                </nav>
+              )}
+            </>
           ) : (
             <p className={classes.noPosts}>
               {getMessageFromContext("blog.noPosts", context.renderContext)}

@@ -47,6 +47,11 @@
   "blog.postStats": "Statistiques de l'article",
   "blog.topics": "Sujets",
 
+  "blog.page": "Page",
+  "blog.of": "sur",
+  "blog.previous": "Précédent",
+  "blog.next": "Suivant",
+
   "blog.attachments": "Pièces jointes",
   "blog.download": "Télécharger",
 
