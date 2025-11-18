@@ -267,6 +267,14 @@ Comment content type (for reference only - actual comments stored by blog-servic
 
 - **default** - Profile card with avatar, bio, role, and social links (3-row layout)
 
+### Screen shots
+
+- **Blog Posts List**
+  ![Blog Posts List](./settings/images/BlogPosts-List.png)
+
+- **Blog Post**
+  ![Blog Post](./settings/images/BlogPost.png)
+
 ## Usage
 
 ### Creating a Blog
